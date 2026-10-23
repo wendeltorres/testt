@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORÇA FIT</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            darkBg: '#10120f',
+                            cardBg: '#191c18',
+                            cardBorder: '#292d27',
+                            lime: '#c8f169',
+                            limeDark: '#a3ca48',
+                            textLight: '#f5f6f1',
+                            textMuted: '#9aa093',
+                            danger: '#ff5c5c',
+                            warning: '#ffb800',
+                            success: '#4cd964'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Estilos Customizados -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-lime selection:text-brand-darkBg">
+
+    <!-- Container do Toast de Notificação -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none"></div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="app" class="min-h-screen flex flex-col relative">
+
+        <!-- ================================================================= -->
+        <!-- ESTÁGIO 1: TELA DE AUTENTICAÇÃO (LOGIN / CADASTRO)                 -->
+        <!-- ================================================================= -->
+        <section id="auth-screen" class="min-h-screen w-full flex items-center justify-center p-4 md:p-8 relative bg-gradient-to-br from-[#10120f] via-[#151813] to-[#0d0e0c]">
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#191c18_1px,transparent_1px),linear-gradient(to_bottom,#191c18_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40 pointer-events-none"></div>
+            <div class="absolute top-1/4 left-10 w-72 h-72 bg-brand-lime/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-brand-lime/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="w-full max-w-5xl bg-brand-cardBg/90 backdrop-blur-xl border border-brand-cardBorder rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-12 relative z-10 my-auto">
+                
+                <!-- Coluna Esquerda: Branding & Demos -->
+                <div class="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-brand-cardBorder bg-gradient-to-b from-brand-cardBg to-[#121411]">
+                    <div>
+                        <div class="flex items-center gap-3 mb-8">
+                            <div class="w-12 h-12 bg-brand-lime rounded-2xl flex items-center justify-center text-brand-darkBg font-extrabold text-2xl shadow-lg glow-lime">
+                                <i class="fa-solid fa-dumbbell"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-black tracking-tight text-white flex items-center gap-1">
+                                    FORÇA <span class="text-brand-lime">FIT</span>
+                                </h1>
+                                <p class="text-xs text-brand-textMuted uppercase tracking-widest font-semibold">Alta Performance</p>
+                            </div>
+                        </div>
+
+                        <h2 class="text-3xl font-extrabold text-white mb-4 leading-tight">
+                            Evolua todos os dias no seu <span class="text-brand-lime">próprio ritmo</span>.
+                        </h2>
+                        <p class="text-brand-textMuted text-sm leading-relaxed mb-6">
+                            Acesse seu treino personalizado, acompanhe suas metas financeiras, renove planos e gerencie sua rotina em uma única plataforma.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-brand-cardBorder/60">
+                        <p class="text-xs font-bold text-brand-lime uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-bolt"></i> Testar o Portal Sem Cadastro:
+                        </p>
+                        <div class="flex flex-col gap-2.5">
+                            <button type="button" onclick="loginDemo('active')" class="w-full py-2.5 px-4 rounded-xl bg-brand-lime/10 hover:bg-brand-lime/20 border border-brand-lime/30 text-brand-lime text-xs font-bold transition-all flex items-center justify-between group">
+                                <span class="flex items-center gap-2">
+                                    <i class="fa-solid fa-user-check"></i> Demo: Lucas (Aluno Ativo)
+                                </span>
+                                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                            <button type="button" onclick="loginDemo('pending')" class="w-full py-2.5 px-4 rounded-xl bg-brand-warning/10 hover:bg-brand-warning/20 border border-brand-warning/30 text-brand-warning text-xs font-bold transition-all flex items-center justify-between group">
+                                <span class="flex items-center gap-2">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> Demo: Mariana (Com Pendência)
+                                </span>
+                                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Formulários -->
+                <div class="lg:col-span-7 p-8 lg:p-12 flex flex-col justify-center">
+                    
+                    <div class="flex bg-brand-darkBg/60 p-1.5 rounded-2xl border border-brand-cardBorder mb-8">
+                        <button id="tab-btn-login" onclick="switchAuthTab('login')" class="flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all text-brand-darkBg bg-brand-lime shadow-md">
+                            Entrar
+                        </button>
+                        <button id="tab-btn-register" onclick="switchAuthTab('register')" class="flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all text-brand-textMuted hover:text-white">
+                            Cadastrar-se
+                        </button>
+                    </div>
+
+                    <!-- LOGIN -->
+                    <form id="form-login" onsubmit="handleLogin(event)" class="space-y-5">
+                        <div>
+                            <label class="block text-xs font-semibold text-brand-textMuted uppercase mb-2">E-mail ou CPF</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-brand-textMuted">
+                                    <i class="fa-regular fa-envelope"></i>
+                                </span>
+                                <input type="text" id="login-email" required placeholder="seu@email.com ou 000.000.000-00" class="w-full pl-11 pr-4 py-3.5 bg-brand-darkBg/80 border border-brand-cardBorder rounded-xl text-white placeholder-brand-textMuted/50 focus:outline-none focus:border-brand-lime text-sm transition-all">
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs font-semibold text-brand-textMuted uppercase">Senha</label>
+                                <a href="#" onclick="showForgetPasswordModal(event)" class="text-xs text-brand-lime hover:underline font-medium">Esqueceu a senha?</a>
+                            </div>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-brand-textMuted">
+                                    <i class="fa-solid fa-lock"></i>
+                                </span>
+                                <input type="password" id="login-password" required placeholder="••••••••" class="w-full pl-11 pr-4 py-3.5 bg-brand-darkBg/80 border border-brand-cardBorder rounded-xl text-white placeholder-brand-textMuted/50 focus:outline-none focus:border-brand-lime text-sm transition-all">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-1">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="remember-me" checked class="w-4 h-4 accent-brand-lime rounded border-brand-cardBorder bg-brand-darkBg">
+                                <span class="text-xs text-brand-textMuted font-medium">Lembrar da minha sessão</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 bg-brand-lime hover:bg-brand-limeDark text-brand-darkBg font-extrabold rounded-xl text-base transition-all transform active:scale-[0.99] shadow-lg glow-lime mt-4 flex items-center justify-center gap-2">
+                            <span>ACESSAR MINHA CONTA</span>
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        </button>
+                    </form>
+
+                    <!-- CADASTRO -->
+                    <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-semibold text-brand-textMuted uppercase mb-1.5">Nome Completo</label>
+                            <input type="text" id="reg-name" required placeholder="Ex: Rodrigo Andrade" class="w-full px-4 py-3 bg-brand-darkBg/80 border border-brand-cardBorder rounded-xl text-white placeholder-brand-textMuted/50 focus:outline-none focus:border-brand-lime text-sm">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-brand-textMuted uppercase mb-1.5">CPF</label>
+                                <input type="text" id="reg-cpf" required placeholder="000.000.000-00" class="w-full px-4 py-3 bg-brand-darkBg/80 border border-brand-cardBorder rounded-xl text-white placeholder-brand-textMuted/50 focus:outline-none focus:border-brand-lime text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-brand-textMuted uppercase mb-1.5">Telefone / WhatsApp</label>
+                                <input type="text" id="reg-phone" required placeholder="(85) 99999-9999" class="w-full px-4 py-3 bg-brand-darkBg/80 border border-brand-cardBorder rounded-xl text-white placeholder-brand-textMuted/50 focus:outline-none focus:border-brand-lime text-sm">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-brand-textMuted uppercase mb-1.5">E-mail</label>
+                            <input type="email" id="reg-email" required placeholder="seu@email.com" class="w-full px-4 py-3 bg-brand-darkBg/80 border border-brand-cardBorder rounded-xl text-white placeholder-brand-textMuted/50 focus:outline-none focus:border-brand-lime text-sm">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-brand-textMuted uppercase mb-1.5">Senha</label>
+                                <input type="password" id="reg-password" required placeholder="Mínimo 6 caracteres" class="w-full px-4 py-3 bg-brand-darkBg/80 border border-brand-cardBorder rounded-xl text-white placeholder-brand-textMuted/50 focus:outline-none focus:border-brand-lime text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-brand-textMuted uppercase mb-1.5">Plano Inicial</label>
+                                <select id="reg-plan" class="w-full px-4 py-3 bg-brand-darkBg/80 border border-brand-cardBorder rounded-xl text-white focus:outline-none focus:border-brand-lime text-sm">
+                                    <option value="Essencial">Plano Essencial (R$ 89/mês)</option>
+                                    <option value="Performance" selected>Plano Performance (R$ 119/mês)</option>
+                                    <option value="Completo">Plano Completo (R$ 149/mês)</option>
+                                    <option value="Anual VIP">Anual VIP (R$ 99/mês)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 bg-brand-lime hover:bg-brand-limeDark text-brand-darkBg font-extrabold rounded-xl text-sm transition-all shadow-lg glow-lime mt-2">
+                            FINALIZAR CADASTRO E ENTRAR
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- ESTÁGIO 2: PORTAL DO ALUNO (ÁREA LOGADA)                          -->
+        <!-- ================================================================= -->
+        <div id="portal-screen" class="hidden min-h-screen flex-col bg-brand-darkBg">
+            
+            <header class="sticky top-0 z-40 bg-brand-cardBg/90 backdrop-blur-md border-b border-brand-cardBorder px-4 lg:px-8 py-3.5">
+                <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-brand-lime rounded-xl flex items-center justify-center text-brand-darkBg font-extrabold text-xl glow-lime-sm">
+                            <i class="fa-solid fa-dumbbell"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-base font-bold text-white leading-tight">
+                                    Olá, <span id="user-greeting-name">Aluno</span>!
+                                </h2>
+                                <span id="user-status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
+                                    Status
+                                </span>
+                            </div>
+                            <p class="text-xs text-brand-textMuted hidden sm:block">Plano Atual: <span id="user-current-plan-header" class="text-white font-semibold">-</span></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button onclick="triggerQuickCheckin()" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-brand-lime/10 hover:bg-brand-lime/20 border border-brand-lime/40 text-brand-lime text-xs font-bold rounded-xl transition-all">
+                            <i class="fa-solid fa-qrcode"></i>
+                            <span>Check-in Rápido</span>
+                        </button>
+
+                        <button onclick="handleLogout()" class="flex items-center gap-2 px-3.5 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-bold rounded-xl transition-all">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span class="hidden md:inline">Sair</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="max-w-7xl mx-auto w-full flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 p-4 lg:p-8">
+                
+                <aside class="md:col-span-3 flex flex-col gap-2">
+                    <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-3 flex md:flex-col gap-1 overflow-x-auto no-scrollbar">
+                        <button onclick="switchPortalSection('dashboard')" id="nav-btn-dashboard" class="portal-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs text-left transition-all bg-brand-lime text-brand-darkBg">
+                            <i class="fa-solid fa-chart-pie text-base"></i>
+                            <span class="whitespace-nowrap">Visão Geral</span>
+                        </button>
+                        
+                        <button onclick="switchPortalSection('plans')" id="nav-btn-plans" class="portal-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs text-left transition-all text-brand-textMuted hover:bg-brand-darkBg hover:text-white">
+                            <i class="fa-solid fa-id-card text-base"></i>
+                            <span class="whitespace-nowrap">Planos & Assinatura</span>
+                        </button>
+
+                        <button onclick="switchPortalSection('workouts')" id="nav-btn-workouts" class="portal-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs text-left transition-all text-brand-textMuted hover:bg-brand-darkBg hover:text-white">
+                            <i class="fa-solid fa-list-check text-base"></i>
+                            <span class="whitespace-nowrap">Divisão de Treino</span>
+                        </button>
+
+                        <button onclick="switchPortalSection('financial')" id="nav-btn-financial" class="portal-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs text-left transition-all text-brand-textMuted hover:bg-brand-darkBg hover:text-white relative">
+                            <i class="fa-solid fa-wallet text-base"></i>
+                            <span class="whitespace-nowrap">Financeiro</span>
+                            <span id="financial-badge-alert" class="hidden absolute right-3 top-3 w-2 h-2 rounded-full bg-brand-danger"></span>
+                        </button>
+                    </div>
+
+                    <div class="hidden md:block bg-gradient-to-br from-brand-cardBg to-[#121411] border border-brand-cardBorder rounded-2xl p-5 mt-2">
+                        <div class="flex items-center gap-2 text-brand-lime text-xs font-bold uppercase mb-2">
+                            <i class="fa-solid fa-clock"></i> Horário de Funcionamento
+                        </div>
+                        <p class="text-xs text-brand-textMuted mb-1"><span class="text-white font-medium">Seg a Sex:</span> 05:00 - 23:00</p>
+                        <p class="text-xs text-brand-textMuted mb-1"><span class="text-white font-medium">Sábados:</span> 08:00 - 18:00</p>
+                        <p class="text-xs text-brand-textMuted"><span class="text-white font-medium">Domingos e Feriados:</span> 08:00 - 13:00</p>
+                    </div>
+                </aside>
+
+                <main class="md:col-span-9 flex flex-col gap-6">
+
+                    <!-- SEÇÃO: DASHBOARD -->
+                    <section id="section-dashboard" class="portal-section space-y-6">
+                        <div id="pending-alert-banner" class="hidden bg-brand-danger/10 border border-brand-danger/30 rounded-2xl p-5 flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-brand-danger/20 text-brand-danger flex items-center justify-center text-xl shrink-0">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">Você possui uma mensalidade em atraso</h3>
+                                    <p class="text-xs text-brand-textMuted">Regularize seu pagamento para evitar o bloqueio na catraca.</p>
+                                </div>
+                            </div>
+                            <button onclick="switchPortalSection('financial')" class="px-4 py-2 bg-brand-danger text-white font-bold text-xs rounded-xl hover:bg-red-600 transition-all shrink-0">
+                                Regularizar Agora
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-5 flex flex-col justify-between">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="text-xs font-semibold text-brand-textMuted uppercase">Status da Matrícula</span>
+                                    <i class="fa-solid fa-id-card text-brand-textMuted"></i>
+                                </div>
+                                <div class="mt-2">
+                                    <span id="dash-status-text" class="text-xl font-extrabold text-white">Ativa</span>
+                                    <p id="dash-plan-name" class="text-xs text-brand-lime font-medium mt-0.5">Plano Performance</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-5 flex flex-col justify-between">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="text-xs font-semibold text-brand-textMuted uppercase">Treino de Hoje</span>
+                                    <i class="fa-solid fa-dumbbell text-brand-textMuted"></i>
+                                </div>
+                                <div class="mt-2">
+                                    <span id="dash-today-workout-title" class="text-xl font-extrabold text-white">Treino A</span>
+                                    <p id="dash-today-workout-desc" class="text-xs text-brand-textMuted font-medium mt-0.5">Peito & Tríceps</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-5 flex flex-col justify-between">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="text-xs font-semibold text-brand-textMuted uppercase">Financeiro</span>
+                                    <i class="fa-solid fa-receipt text-brand-textMuted"></i>
+                                </div>
+                                <div class="mt-2">
+                                    <span id="dash-finance-status" class="text-xl font-extrabold text-brand-success">Em Dia</span>
+                                    <p id="dash-finance-detail" class="text-xs text-brand-textMuted font-medium mt-0.5">Próx. vencimento: 10/11</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-brand-cardBg via-[#1f231e] to-brand-cardBg border border-brand-cardBorder rounded-2xl p-6 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+                            <div class="space-y-2 z-10 text-center md:text-left">
+                                <span class="px-3 py-1 bg-brand-lime/10 text-brand-lime border border-brand-lime/30 rounded-full text-[10px] font-extrabold uppercase">Catraca Virtual</span>
+                                <h3 class="text-xl font-extrabold text-white">Liberar Acesso na Entrada</h3>
+                                <p class="text-xs text-brand-textMuted max-w-md">Clique no botão abaixo para gerar seu Token QR Code dinâmico e aproximar do leitor da academia.</p>
+                            </div>
+                            <button onclick="triggerQuickCheckin()" class="z-10 px-6 py-3.5 bg-brand-lime hover:bg-brand-limeDark text-brand-darkBg font-extrabold rounded-xl text-sm transition-all shadow-lg glow-lime flex items-center gap-2.5 shrink-0">
+                                <i class="fa-solid fa-qrcode text-lg"></i>
+                                <span>GERAR CHECK-IN AGORA</span>
+                            </button>
+                        </div>
+
+                        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-base font-extrabold text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-fire text-brand-lime"></i> Resumo do Treino Recomendado
+                                </h3>
+                                <button onclick="switchPortalSection('workouts')" class="text-xs text-brand-lime hover:underline font-bold">Ver Ficha Completa →</button>
+                            </div>
+
+                            <div id="dash-workout-preview-list" class="space-y-3"></div>
+                        </div>
+                    </section>
+
+                    <!-- SEÇÃO: PLANOS -->
+                    <section id="section-plans" class="portal-section space-y-6 hidden">
+                        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6">
+                            <h3 class="text-lg font-extrabold text-white mb-1">Seu Plano Atual</h3>
+                            <p class="text-xs text-brand-textMuted mb-6">Confira os detalhes e benefícios do seu contrato vigente.</p>
+
+                            <div class="bg-brand-darkBg/60 border border-brand-cardBorder rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                <div>
+                                    <span class="text-xs text-brand-lime font-bold uppercase tracking-wider">Matrícula Ativa</span>
+                                    <h4 id="plan-current-title" class="text-2xl font-black text-white mt-1">Plano Performance</h4>
+                                    <p id="plan-current-price" class="text-sm text-brand-textMuted mt-0.5">R$ 119,00 / mês • Cobrança Mensal</p>
+                                </div>
+                                <button onclick="scrollToPlans()" class="px-4 py-2.5 bg-brand-cardBorder hover:bg-brand-cardBorder/80 text-white font-bold text-xs rounded-xl transition-all">
+                                    Mudar de Plano
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="plans-comparison" class="space-y-4">
+                            <div>
+                                <h3 class="text-lg font-extrabold text-white">Conheça Nossos Planos</h3>
+                                <p class="text-xs text-brand-textMuted">Faça um upgrade a qualquer momento para liberar mais vantagens.</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-5 flex flex-col justify-between hover:border-brand-lime/40 transition-all">
+                                    <div>
+                                        <h4 class="text-lg font-extrabold text-white">Essencial</h4>
+                                        <p class="text-xs text-brand-textMuted mb-4">Treino funcional básico</p>
+                                        <div class="mb-4">
+                                            <span class="text-2xl font-black text-white">R$ 89</span>
+                                            <span class="text-xs text-brand-textMuted">/mês</span>
+                                        </div>
+                                        <ul class="space-y-2 text-xs text-brand-textMuted mb-6">
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Acesso musculação</li>
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Ficha individual</li>
+                                            <li class="flex items-center gap-2 text-brand-textMuted/40 line-through"><i class="fa-solid fa-xmark"></i> Aulas coletivas</li>
+                                        </ul>
+                                    </div>
+                                    <button onclick="confirmPlanChange('Essencial', '89,00')" class="w-full py-2.5 bg-brand-darkBg hover:bg-brand-cardBorder border border-brand-cardBorder text-white font-bold text-xs rounded-xl transition-all">
+                                        Selecionar
+                                    </button>
+                                </div>
+
+                                <div class="bg-brand-cardBg border-2 border-brand-lime rounded-2xl p-5 flex flex-col justify-between relative shadow-lg glow-lime-sm">
+                                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-brand-lime text-brand-darkBg text-[10px] font-black uppercase rounded-full">Mais Popular</span>
+                                    <div>
+                                        <h4 class="text-lg font-extrabold text-white">Performance</h4>
+                                        <p class="text-xs text-brand-textMuted mb-4">Mais flexibilidade e aulas</p>
+                                        <div class="mb-4">
+                                            <span class="text-2xl font-black text-white">R$ 119</span>
+                                            <span class="text-xs text-brand-textMuted">/mês</span>
+                                        </div>
+                                        <ul class="space-y-2 text-xs text-brand-textMuted mb-6">
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Acesso Musculação</li>
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Aulas Coletivas</li>
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Bioimpedância Bimestral</li>
+                                        </ul>
+                                    </div>
+                                    <button onclick="confirmPlanChange('Performance', '119,00')" class="w-full py-2.5 bg-brand-lime text-brand-darkBg font-extrabold text-xs rounded-xl transition-all hover:bg-brand-limeDark">
+                                        Selecionar
+                                    </button>
+                                </div>
+
+                                <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-5 flex flex-col justify-between hover:border-brand-lime/40 transition-all">
+                                    <div>
+                                        <h4 class="text-lg font-extrabold text-white">Completo</h4>
+                                        <p class="text-xs text-brand-textMuted mb-4">Experiência VIP Total</p>
+                                        <div class="mb-4">
+                                            <span class="text-2xl font-black text-white">R$ 149</span>
+                                            <span class="text-xs text-brand-textMuted">/mês</span>
+                                        </div>
+                                        <ul class="space-y-2 text-xs text-brand-textMuted mb-6">
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Total + Convidado 2x/mês</li>
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Coletivas & Crossfit</li>
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Armário Exclusivo</li>
+                                        </ul>
+                                    </div>
+                                    <button onclick="confirmPlanChange('Completo', '149,00')" class="w-full py-2.5 bg-brand-darkBg hover:bg-brand-cardBorder border border-brand-cardBorder text-white font-bold text-xs rounded-xl transition-all">
+                                        Selecionar
+                                    </button>
+                                </div>
+
+                                <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-5 flex flex-col justify-between hover:border-brand-lime/40 transition-all">
+                                    <div>
+                                        <h4 class="text-lg font-extrabold text-white">Anual VIP</h4>
+                                        <p class="text-xs text-brand-textMuted mb-4">Economia máxima em 12x</p>
+                                        <div class="mb-4">
+                                            <span class="text-2xl font-black text-white">R$ 99</span>
+                                            <span class="text-xs text-brand-textMuted">/mês em 12x</span>
+                                        </div>
+                                        <ul class="space-y-2 text-xs text-brand-textMuted mb-6">
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Benefícios do Completo</li>
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Desconto de 30% anual</li>
+                                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-lime"></i> Camisa Oficial Força Fit</li>
+                                        </ul>
+                                    </div>
+                                    <button onclick="confirmPlanChange('Anual VIP', '99,00')" class="w-full py-2.5 bg-brand-darkBg hover:bg-brand-cardBorder border border-brand-cardBorder text-white font-bold text-xs rounded-xl transition-all">
+                                        Selecionar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SEÇÃO: FICHA DE TREINO -->
+                    <section id="section-workouts" class="portal-section space-y-6 hidden">
+                        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                                <div>
+                                    <h3 class="text-lg font-extrabold text-white">Sua Divisão de Treino</h3>
+                                    <p class="text-xs text-brand-textMuted">Acompanhe suas séries, cargas e conclua o treino do dia.</p>
+                                </div>
+                                <button onclick="openChangeWorkoutModal()" class="px-4 py-2.5 bg-brand-darkBg hover:bg-brand-cardBorder border border-brand-cardBorder text-brand-lime font-bold text-xs rounded-xl transition-all flex items-center gap-2">
+                                    <i class="fa-solid fa-user-ninja"></i>
+                                    <span>Solicitar Troca de Treino</span>
+                                </button>
+                            </div>
+
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+                                <button onclick="selectWorkoutTab('A')" id="workout-tab-A" class="workout-routine-tab py-3 px-4 rounded-xl font-bold text-xs text-center border transition-all bg-brand-lime border-brand-lime text-brand-darkBg">
+                                    TREINO A
+                                    <span class="block text-[10px] font-normal">Peito & Tríceps</span>
+                                </button>
+                                <button onclick="selectWorkoutTab('B')" id="workout-tab-B" class="workout-routine-tab py-3 px-4 rounded-xl font-bold text-xs text-center border transition-all border-brand-cardBorder bg-brand-darkBg text-brand-textMuted hover:text-white">
+                                    TREINO B
+                                    <span class="block text-[10px] font-normal">Costas & Bíceps</span>
+                                </button>
+                                <button onclick="selectWorkoutTab('C')" id="workout-tab-C" class="workout-routine-tab py-3 px-4 rounded-xl font-bold text-xs text-center border transition-all border-brand-cardBorder bg-brand-darkBg text-brand-textMuted hover:text-white">
+                                    TREINO C
+                                    <span class="block text-[10px] font-normal">Pernas Completo</span>
+                                </button>
+                                <button onclick="selectWorkoutTab('D')" id="workout-tab-D" class="workout-routine-tab py-3 px-4 rounded-xl font-bold text-xs text-center border transition-all border-brand-cardBorder bg-brand-darkBg text-brand-textMuted hover:text-white">
+                                    TREINO D
+                                    <span class="block text-[10px] font-normal">Ombros & Core</span>
+                                </button>
+                            </div>
+
+                            <div class="bg-brand-darkBg/60 p-4 rounded-xl border border-brand-cardBorder mb-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-bold text-white uppercase tracking-wider">Progresso do Treino</span>
+                                    <span id="workout-progress-text" class="text-xs font-bold text-brand-lime">0% Concluído</span>
+                                </div>
+                                <div class="w-full bg-brand-cardBorder h-2.5 rounded-full overflow-hidden">
+                                    <div id="workout-progress-bar" class="bg-brand-lime h-full w-0 transition-all duration-300"></div>
+                                </div>
+                            </div>
+
+                            <div id="workout-exercise-list" class="space-y-3"></div>
+                        </div>
+                    </section>
+
+                    <!-- SEÇÃO: FINANCEIRO -->
+                    <section id="section-financial" class="portal-section space-y-6 hidden">
+                        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6">
+                            <h3 class="text-lg font-extrabold text-white mb-4">Painel Financeiro</h3>
+                            
+                            <div id="financial-status-card" class="bg-brand-darkBg/60 border rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                <div class="flex items-center gap-4">
+                                    <div id="financial-status-icon" class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl shrink-0">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-brand-textMuted uppercase font-semibold">Situação Financeira</p>
+                                        <h4 id="financial-status-title" class="text-xl font-extrabold text-white">Mensalidades em Dia</h4>
+                                        <p id="financial-status-subtitle" class="text-xs text-brand-textMuted">Sua próxima cobrança será emitida em breve.</p>
+                                    </div>
+                                </div>
+
+                                <div id="financial-action-area"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6">
+                            <h3 class="text-base font-extrabold text-white mb-4">Histórico de Mensalidades & Faturas</h3>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="border-b border-brand-cardBorder text-[11px] font-bold text-brand-textMuted uppercase tracking-wider">
+                                            <th class="py-3 px-4">Referência / Descrição</th>
+                                            <th class="py-3 px-4">Vencimento</th>
+                                            <th class="py-3 px-4">Valor</th>
+                                            <th class="py-3 px-4">Status</th>
+                                            <th class="py-3 px-4 text-right">Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="financial-invoices-tbody" class="divide-y divide-brand-cardBorder/50 text-xs text-white"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                </main>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAIS -->
+    <!-- MODAL CHECKIN -->
+    <div id="modal-checkin" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-3xl p-6 max-w-sm w-full text-center relative space-y-4">
+            <button onclick="closeModal('modal-checkin')" class="absolute top-4 right-4 text-brand-textMuted hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="w-12 h-12 bg-brand-lime/10 text-brand-lime rounded-2xl flex items-center justify-center text-xl mx-auto border border-brand-lime/30">
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-extrabold text-white">Acesso à Academia</h3>
+                <p class="text-xs text-brand-textMuted mt-1">Aproxime este QR Code do leitor óptico na catraca de entrada.</p>
+            </div>
+            
+            <div class="bg-white p-4 rounded-2xl border-4 border-brand-lime inline-block shadow-lg my-2">
+                <svg id="qr-svg" class="w-48 h-48 mx-auto" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="100" fill="white"/>
+                    <path d="M10 10H40V40H10V10ZM15 15V35H35V15H15Z" fill="#10120f"/>
+                    <rect x="20" y="20" width="10" height="10" fill="#10120f"/>
+                    <path d="M60 10H90V40H60V10ZM65 15V35H85V15H65Z" fill="#10120f"/>
+                    <rect x="70" y="20" width="10" height="10" fill="#10120f"/>
+                    <path d="M10 60H40V90H10V60ZM15 65V85H35V65H15Z" fill="#10120f"/>
+                    <rect x="20" y="70" width="10" height="10" fill="#10120f"/>
+                    <rect x="50" y="50" width="15" height="15" fill="#10120f"/>
+                    <rect x="70" y="50" width="20" height="10" fill="#10120f"/>
+                    <rect x="50" y="75" width="25" height="15" fill="#10120f"/>
+                    <rect x="80" y="70" width="10" height="20" fill="#10120f"/>
+                </svg>
+            </div>
+
+            <div class="text-[11px] text-brand-lime font-mono">Token Válido por: <span id="checkin-timer">00:59</span>s</div>
+
+            <button onclick="simulaCatracaSucesso()" class="w-full py-3 bg-brand-lime text-brand-darkBg font-extrabold text-xs rounded-xl hover:bg-brand-limeDark transition-all">
+                SIMULAR ENTRADA NA CATRACA
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL PAGAMENTO -->
+    <div id="modal-payment" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-3xl p-6 max-w-md w-full relative space-y-5 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('modal-payment')" class="absolute top-4 right-4 text-brand-textMuted hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div>
+                <span class="text-xs font-bold text-brand-lime uppercase tracking-wider">Pagamento Online</span>
+                <h3 class="text-xl font-extrabold text-white">Quitar Mensalidade</h3>
+                <p id="modal-pay-desc" class="text-xs text-brand-textMuted">Fatura de R$ 89,00</p>
+            </div>
+
+            <div class="flex bg-brand-darkBg p-1 rounded-xl border border-brand-cardBorder">
+                <button onclick="switchPaymentMethod('pix')" id="pay-method-pix" class="flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all bg-brand-lime text-brand-darkBg">
+                    <i class="fa-solid fa-pix"></i> PIX (Instantâneo)
+                </button>
+                <button onclick="switchPaymentMethod('card')" id="pay-method-card" class="flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all text-brand-textMuted hover:text-white">
+                    <i class="fa-solid fa-credit-card"></i> Cartão de Crédito
+                </button>
+            </div>
+
+            <div id="pay-panel-pix" class="space-y-4 text-center">
+                <p class="text-xs text-brand-textMuted">Escaneie o QR Code abaixo com seu aplicativo de banco para pagamento imediato.</p>
+                <div class="bg-white p-3 rounded-2xl border-2 border-brand-lime inline-block">
+                    <svg class="w-40 h-40 mx-auto" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" fill="white"/>
+                        <path d="M10 10H40V40H10V10ZM15 15V35H35V15H15Z" fill="#10120f"/>
+                        <rect x="20" y="20" width="10" height="10" fill="#10120f"/>
+                        <path d="M60 10H90V40H60V10ZM65 15V35H85V15H65Z" fill="#10120f"/>
+                        <rect x="70" y="20" width="10" height="10" fill="#10120f"/>
+                        <path d="M10 60H40V90H10V60ZM15 65V85H35V65H15Z" fill="#10120f"/>
+                        <rect x="20" y="70" width="10" height="10" fill="#10120f"/>
+                        <rect x="55" y="55" width="25" height="25" fill="#10120f"/>
+                    </svg>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-brand-textMuted mb-1 text-left">Chave Copia e Cola:</label>
+                    <div class="flex gap-2">
+                        <input type="text" readonly value="00020126360014BR.GOV.BCB.PIX0114+55859999999995200005303986540589.00" class="w-full px-3 py-2 bg-brand-darkBg border border-brand-cardBorder rounded-lg text-xs text-brand-textMuted font-mono">
+                        <button onclick="copyPixCode()" class="px-3 py-2 bg-brand-cardBorder hover:bg-brand-lime hover:text-brand-darkBg text-white rounded-lg text-xs font-bold transition-all shrink-0">
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="processSimulatedPayment('PIX')" class="w-full py-3 bg-brand-lime text-brand-darkBg font-extrabold text-xs rounded-xl hover:bg-brand-limeDark transition-all glow-lime">
+                    CONFIRMAR PAGAMENTO PIX
+                </button>
+            </div>
+
+            <form id="pay-panel-card" onsubmit="handleCardPaymentSubmit(event)" class="space-y-3 hidden">
+                <div>
+                    <label class="block text-[11px] font-semibold text-brand-textMuted uppercase mb-1">Número do Cartão</label>
+                    <input type="text" required placeholder="0000 0000 0000 0000" class="w-full px-3.5 py-2.5 bg-brand-darkBg border border-brand-cardBorder rounded-xl text-xs text-white focus:outline-none focus:border-brand-lime">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-brand-textMuted uppercase mb-1">Nome Impresso no Cartão</label>
+                    <input type="text" required placeholder="Nome do Titular" class="w-full px-3.5 py-2.5 bg-brand-darkBg border border-brand-cardBorder rounded-xl text-xs text-white focus:outline-none focus:border-brand-lime">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-brand-textMuted uppercase mb-1">Validade</label>
+                        <input type="text" required placeholder="MM/AA" class="w-full px-3.5 py-2.5 bg-brand-darkBg border border-brand-cardBorder rounded-xl text-xs text-white focus:outline-none focus:border-brand-lime">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-brand-textMuted uppercase mb-1">CVV</label>
+                        <input type="text" required placeholder="123" class="w-full px-3.5 py-2.5 bg-brand-darkBg border border-brand-cardBorder rounded-xl text-xs text-white focus:outline-none focus:border-brand-lime">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-3.5 bg-brand-lime text-brand-darkBg font-extrabold text-xs rounded-xl hover:bg-brand-limeDark transition-all glow-lime mt-2">
+                    PAGAR COM CARTÃO
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMAÇÃO DE PLANO -->
+    <div id="modal-plan-confirm" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-3xl p-6 max-w-sm w-full text-center space-y-4">
+            <div class="w-12 h-12 bg-brand-lime/10 text-brand-lime rounded-2xl flex items-center justify-center text-xl mx-auto border border-brand-lime/30">
+                <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-extrabold text-white">Alterar Seu Plano</h3>
+                <p class="text-xs text-brand-textMuted mt-1">Deseja migrar sua assinatura para o <strong id="modal-target-plan-name" class="text-white">Plano</strong>?</p>
+            </div>
+            <div class="bg-brand-darkBg p-3 rounded-xl border border-brand-cardBorder text-xs text-brand-textMuted">
+                Novo Valor: <span id="modal-target-plan-price" class="text-brand-lime font-bold">R$ 0,00</span> / mês
+            </div>
+            <div class="flex gap-2">
+                <button onclick="closeModal('modal-plan-confirm')" class="flex-1 py-2.5 bg-brand-darkBg text-brand-textMuted font-bold text-xs rounded-xl hover:text-white transition-all">Cancelar</button>
+                <button onclick="processPlanUpgrade()" class="flex-1 py-2.5 bg-brand-lime text-brand-darkBg font-extrabold text-xs rounded-xl hover:bg-brand-limeDark transition-all">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ESQUECI A SENHA -->
+    <div id="modal-forgot-password" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-3xl p-6 max-w-sm w-full space-y-4 relative">
+            <button onclick="closeModal('modal-forgot-password')" class="absolute top-4 right-4 text-brand-textMuted hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div>
+                <h3 class="text-lg font-extrabold text-white">Recuperar Senha</h3>
+                <p class="text-xs text-brand-textMuted mt-1">Digite seu e-mail cadastrado para receber as instruções de redefinição.</p>
+            </div>
+            <div>
+                <input type="email" id="forgot-email" placeholder="seu@email.com" class="w-full px-4 py-3 bg-brand-darkBg border border-brand-cardBorder rounded-xl text-xs text-white focus:outline-none focus:border-brand-lime">
+            </div>
+            <button onclick="submitForgotPassword()" class="w-full py-3 bg-brand-lime text-brand-darkBg font-extrabold text-xs rounded-xl hover:bg-brand-limeDark transition-all">
+                ENVIAR LINK DE RECUPERAÇÃO
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL TROCA DE TREINO -->
+    <div id="modal-change-workout" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-3xl p-6 max-w-md w-full space-y-4 relative">
+            <button onclick="closeModal('modal-change-workout')" class="absolute top-4 right-4 text-brand-textMuted hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div>
+                <h3 class="text-lg font-extrabold text-white">Solicitar Troca de Ficha</h3>
+                <p class="text-xs text-brand-textMuted mt-1">Envie uma mensagem direta para a equipe de instrutores da FORÇA FIT.</p>
+            </div>
+            <div>
+                <label class="block text-[11px] font-semibold text-brand-textMuted uppercase mb-1">Seu Objetivo Atual</label>
+                <select id="workout-goal-select" class="w-full px-3.5 py-2.5 bg-brand-darkBg border border-brand-cardBorder rounded-xl text-xs text-white focus:outline-none focus:border-brand-lime">
+                    <option>Hipertrofia / Ganho de Massa</option>
+                    <option>Emagrecimento / Definição</option>
+                    <option>Força Pura e Condicionamento</option>
+                    <option>Adaptação / Lesão Recuperada</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-[11px] font-semibold text-brand-textMuted uppercase mb-1">Observações do Aluno</label>
+                <textarea id="workout-notes-text" rows="3" placeholder="Ex: Gostaria de dar mais ênfase em ombros..." class="w-full px-3.5 py-2.5 bg-brand-darkBg border border-brand-cardBorder rounded-xl text-xs text-white focus:outline-none focus:border-brand-lime"></textarea>
+            </div>
+            <button onclick="submitWorkoutChangeRequest()" class="w-full py-3 bg-brand-lime text-brand-darkBg font-extrabold text-xs rounded-xl hover:bg-brand-limeDark transition-all">
+                ENVIAR SOLICITAÇÃO AO INSTRUTOR
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript Principal -->
+    <script src="app.js"></script>
+</body>
+</html>
